@@ -50,22 +50,23 @@
 *** godbolt : gives the assembly version of some code
     gcc.godbolt.org
 
-*** prevent copy : delete keyword
-    copy_constructor(const mytype&) = delete;
-    instead of rendering the copy constructor private
-      
-    use default constructor :
-    copy_constructor(const mytype&) = default;
+*** constructor can call another constructor
+    myclass(int i, std::string s);
+    myclass(int i) : myclass{2, std::string("truc")} {}
+
+** new keywords
 
 *** explicit keyword
     explicit myclass(std:string s); // no implicit calls 
     implies :
     myclass("truc"); // can't be used : no implicit conversion
 
-*** constructor can call another constructor
-    myclass(int i, std::string s);
-    myclass(int i) : myclass{2, std::string("truc")} {}
-
+*** prevent copy : delete keyword
+    copy_constructor(const mytype&) = delete;
+    instead of rendering the copy constructor private
+      
+    use default constructor :
+    copy_constructor(const mytype&) = default;
 
 *** use getline instead of cin on a string
     getline(std::cin, my_string);
@@ -75,4 +76,36 @@
       for(auto c : choices) {
         std::cout << "#" << i << " " << c << std::endl;
       }
+
+      auto it = my_map.find(key);
           
+*** override keyword
+    to force the override of a virtual function, despite change in the
+    signature with the const keyword.
+
+*** big number separator 
+    int val = 1'000'000;
+
+*** string literals
+    utf8 : u8, utf16 : u, utf32 : U, raw string : R
+    example utf-8 string :
+    u8"blabla"
+    raw string : no escape chars, useful for regexp
+
+*** lambda expression
+    generally used to declare a function inplace :
+    std::vector<std::pair<int, std::string>> v;
+    std::sort(v.begin(), v.end(), [](const auto& left, const auto& right) {
+                        return left.first < right.first;});
+    lambda expression syntax :
+    [varcapture](args) -> ret_type { definition };
+
+*** lambda as function pointers
+    auto plus = [](int a, int b) -> int { return a+b; }
+
+    using func_ptr = int(*)(int, int);     // classic function pointer
+    using lambda_ptr = +[](int, int) -> int; // lambda exp pointer
+
+*** std::function
+    helper for function pointer, can be a function pointer or a lambda pointer 
+    std::function<int(int,int)> func_ptr;
