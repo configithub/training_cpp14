@@ -71,14 +71,32 @@
 *** use getline instead of cin on a string
     getline(std::cin, my_string);
 
-*** auto keyword
-      std::vector<std::string> choices{ "resto1", "resto2", "resto3" };
-      for(auto c : choices) {
-        std::cout << "#" << i << " " << c << std::endl;
-      }
+*** type inference
+**** auto keyword
+     std::vector<std::string> choices{ "resto1", "resto2", "resto3" };
+     for(auto& c : choices) {
+     std::cout << "#" << i << " " << c << std::endl;
+     }
 
-      auto it = my_map.find(key);
+     auto it = my_map.find(key);
+     auto it = my_map.begin();
+     auto it = my_map.cbegin(); // const
+
+     The type is deduced at compile time.
+     Be careful with references vs copy and constness.
+
+**** typeid
+     std::vector<int> var;
+     typeid(var); // returns the type of var
+     typeid(var).name();
           
+**** decltype
+     std::vector<int> var;
+     decltype(var) vtype;
+      get the type of variable, can then be reused with the using keyword
+     using my_type = vtype;
+     my_type var2; // another vector<int>
+
 *** override keyword
     to force the override of a virtual function, despite change in the
     signature with the const keyword.
@@ -92,6 +110,7 @@
     u8"blabla"
     raw string : no escape chars, useful for regexp
 
+** lambda and function pointers
 *** lambda expression
     generally used to declare a function inplace :
     std::vector<std::pair<int, std::string>> v;
@@ -109,3 +128,19 @@
 *** std::function
     helper for function pointer, can be a function pointer or a lambda pointer 
     std::function<int(int,int)> func_ptr;
+
+** for ranged loops
+*** transform, accumulate, find, find_if
+    use them instead of for loops everywhere
+
+*** for loop on a range
+    for(const auto& e : v) { }
+    for(auto& e : v) { }
+
+** enum class
+   enum class temperature {
+     cold, hot }
+   temperature x = temperature::cold;
+   
+
+
