@@ -1,0 +1,78 @@
+* <2016-10-10 Mon>
+** rvalue
+*** defintion
+  - a lvalue is something that has an address in memory : we can obtain the
+  address with &. It can be at either side of an = operation.
+  - an rvalue is not a lvalue : we can't obtain the adress. It can only be at
+    the right side of an = operation.
+      Example : x*y is a rvalue
+
+*** rvalue reference
+   - if X is a type, X& is a reference and X&& is an rvalue reference.
+   - This type of reference can be used to define a special type of 
+     = operator, which makes a swap (or move) instead of a copy of the
+     member(s) object(s) of our type.
+      Example:  
+            X& X::operator=(X const & rhs); // classical assign
+            X& X::operator=(X&& rhs);       // rvalue ref assign
+   - to obtain the rvalue ref of an object x, use std::move(x)
+      Example:
+        y = x;  // uses classical assign
+        y = std::move(x) // uses rvalue ref assign
+* <2016-10-11 Tue>
+** principles
+*** standard lib holy trinity : algo (sort, find..) / container / iterator
+    It's easy to change the container without touching the algo function :
+    sort and find work for any container. Data-centric programming.
+
+*** c++14 = c++11 + some small stuff
+    c++11 partial support : gcc4.6
+    c++14 full support : gcc5.0
+
+** new features that replace old stuff
+*** types
+    use explicit types : #include <cstdint> 
+        std::uint8_t x;
+
+*** typedef can be replaced by using
+    using a_ptr = a*;
+    using vec_double = std::vector<double>;
+    template<typename T> using my_vac = std::vector<T, allocator(T)>;
+
+*** NULL is a int, use nullptr instead
+    nullptr is a pointer of type std::nullptr_t
+
+*** new constructor call syntax to avoid ambiguity with functions
+    int x{1}; // instead of int x(1);
+    struct members can be given default values with this syntax
+    std::vector< std::vector< int > > = { { 1, 2} , {1, 2} } // works
+
+*** godbolt : gives the assembly version of some code
+    gcc.godbolt.org
+
+*** prevent copy : delete keyword
+    copy_constructor(const mytype&) = delete;
+    instead of rendering the copy constructor private
+      
+    use default constructor :
+    copy_constructor(const mytype&) = default;
+
+*** explicit keyword
+    explicit myclass(std:string s); // no implicit calls 
+    implies :
+    myclass("truc"); // can't be used : no implicit conversion
+
+*** constructor can call another constructor
+    myclass(int i, std::string s);
+    myclass(int i) : myclass{2, std::string("truc")} {}
+
+
+*** use getline instead of cin on a string
+    getline(std::cin, my_string);
+
+*** auto keyword
+      std::vector<std::string> choices{ "resto1", "resto2", "resto3" };
+      for(auto c : choices) {
+        std::cout << "#" << i << " " << c << std::endl;
+      }
+          
