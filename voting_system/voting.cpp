@@ -26,7 +26,8 @@ int get_vote(std::set<std::string>& voters,
             << choices[choice-1] << std::endl;
   }
 
-  std::set<std::string>::iterator find_voter = voters.find(name);
+  //std::set<std::string>::iterator find_voter = voters.find(name);
+  auto find_voter = voters.find(name);
   if(find_voter != voters.end()) {
     std::cout << "already voted" << std::endl;
   }else{
@@ -56,9 +57,11 @@ int main(int argc, char** argv) {
   }
 
   std::cout << "Results:" << std::endl;
-  for(std::map<std::string,int>::iterator itvc = vote_counts.begin(); 
-    itvc != vote_counts.end(); ++itvc) { 
-    std::cout << itvc->first << " " << itvc->second << std::endl;
+  //for(std::map<std::string,int>::iterator itvc = vote_counts.begin(); 
+    //itvc != vote_counts.end(); ++itvc) { 
+  for(auto vc : vote_counts) {
+    //std::cout << itvc->first << " " << itvc->second << std::endl;
+    std::cout << vc.first << " " << vc.second << std::endl;
   } 
 
   return 0;
