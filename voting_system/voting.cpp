@@ -7,7 +7,7 @@
 
 int get_vote(std::set<std::string>& voters, 
           std::map<std::string, int>& vote_counts,
-          std::vector<std::string>& choices) {
+          const std::vector<std::string>& choices) {
   std::string name;
   std::cout << "type your name:" << std::endl;
   getline(std::cin, name);
@@ -41,7 +41,7 @@ int get_vote(std::set<std::string>& voters,
 
 int main(int argc, char** argv) {
   // build the list of restaurant
-  std::vector<std::string> choices{ "resto1", "resto2", "resto3" };
+  std::vector<std::string> choices{ "pizza", "chinois", "sushi" };
   int i = 1;
   for(auto c : choices) {
     std::cout << "#" << i << " " << c << std::endl;

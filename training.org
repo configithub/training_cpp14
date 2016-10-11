@@ -137,10 +137,30 @@
     for(const auto& e : v) { }
     for(auto& e : v) { }
 
-** enum class
-   enum class temperature {
-     cold, hot }
-   temperature x = temperature::cold;
-   
+** libfmt : replaces iostream (not standard)
+** containers
+*** enum class
+    enum class temperature {
+    cold, hot }
+    temperature x = temperature::cold;
+
+*** std::deque : like a vector by blocks
+    vector list hybrid : push possible at both end without full copy
+    better then list in nearly any situation, except when iterator invalidation
+    really can't happen : in this case use a list
+
+*** std::array : like a constant vector on the stack
+    no reallocation, allocation on the stack
+
+*** std::unordered_map : much faster than map
+    hash function can be defined
+
+*** boost flat_map
+    flat_set 
+    map or set with data locality, insert can cost a lot 
+
+*** boost small vector :
+    start on the stack, if something is pushed realloc on the heap
+
 
 
