@@ -394,7 +394,9 @@
      if it is true, then the operation on the type are atomic
      var.compare_exchange_strong(); // atomic compare
 
-
+* books:
+  - effective modern c++ by scott meyers
+  - elements of programming by alexander stepanov and paul mcjones
 
 
 

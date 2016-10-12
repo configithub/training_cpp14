@@ -20,7 +20,7 @@ public:
       std::cout << "ping " << _counter << std::endl;
       ++_counter;
       _cond_var.wait_for(lock, std::chrono::seconds(1)); 
-      // wait releases the lock
+      // releases the lock and wait (for 1 sec)
     }
   }
 
