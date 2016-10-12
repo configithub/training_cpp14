@@ -172,8 +172,6 @@
        "mystruct does not fit in a cache line");
    will fail at compile time if not satisfied
 
-
-
 *** check stuff in asserts
     the standard lib provides checking functions, such as 
     std::is_integral
@@ -181,10 +179,41 @@
 
 ** constexpr
    the const and constexpr keywords have no relation to each other at all
-
-   constexpr means the function is not virtual, consist in a single statement
-   and operate on literal types only
-
    using constexpr reduces runtime costs by pushing operations at compile time
+
+   for a function, constexpr means the function is not virtual, 
+   consist in a single statement and operate on literal types only
+
+   constexpr variables will be evaluated at compile time if possible
+
+*** constants
+    constant evaluated at compile time and read only after :
+    static constexpr int my_constant = 1;
+
+
+** memory management
+
+
+*** RAII
+    resource acquisition is initialization
+
+*** unique_ptr
+    use std::make_unique to create one (instead of new)
+    (make_unique calls new and wrap in a unique ptr)
+    the object is destroyed at the end of the scope
+
+    similar to boost::scoped_ptr
+    
+    {
+      std::unique_ptr<Obj> p1(new Obj); 
+      std::unique_ptr<Obj> p2 
+                  = std::make_unique<Obj>();
+    } // destructor called for p1 and p2
+
+
+*** shared_ptr
+
+
+
 
 
