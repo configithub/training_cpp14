@@ -10,9 +10,10 @@ struct unique_array {
     delete[] _buffer; 
   }
 
-  // disallow copy
+  // disallow regular copy and assignment
   unique_array(const unique_array& a) = delete;
   unique_array& operator=(const unique_array& a) = delete;
+
   // move assignment
   unique_array& operator=(unique_array&& a) {
     // swap buffers and size value between the two objects
@@ -29,6 +30,7 @@ struct unique_array {
   // move constructor
   unique_array(unique_array&& a) : _buffer(nullptr), _size(0) { 
     // initialization at nullptr and 0 avoids a segfault
+    // because the swapped buffer as a valid (empty) value
     std::swap(_buffer, a._buffer); // swap 2 variables, uses move if possible
     std::swap(_size, a._size);
     std::cout << "move construction" << std::endl;
@@ -58,10 +60,11 @@ int main(int, char**) {
   unique_array b(6);
   b = std::move(a); // b and a are swapped, 
   //   the move assignment defined in unique_array is used
-  //   a shouldn't be used after this 
+  //   unique_array a shouldn't be used after this 
   std::cout << "size of b: " <<  b.size() << std::endl;
   
   unique_array c(std::move(b)); // calls the move constructor
+  //   unique_array b shouldn't be used after this 
   
   std::cout << "size of c: " <<  c.size() << std::endl;
 
