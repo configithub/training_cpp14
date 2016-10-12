@@ -8,6 +8,7 @@
       Example : x*y is a rvalue
 
 *** rvalue reference
+    http://thbecker.net/articles/rvalue_references/section_01.html
    - if X is a type, X& is a reference and X&& is an rvalue reference.
    - This type of reference can be used to define a special type of 
      = operator, which makes a swap (or move) instead of a copy of the
