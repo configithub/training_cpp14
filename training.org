@@ -174,3 +174,17 @@
 
 
 
+*** check stuff in asserts
+    the standard lib provides checking functions, such as 
+    std::is_integral
+    std::is_signed
+
+** constexpr
+   the const and constexpr keywords have no relation to each other at all
+
+   constexpr means the function is not virtual, consist in a single statement
+   and operate on literal types only
+
+   using constexpr reduces runtime costs by pushing operations at compile time
+
+
