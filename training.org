@@ -164,3 +164,13 @@
 
 
 
+* <2016-10-12 Wed>
+
+** static assert
+   assert can make breakpoints for the debugger
+   static_assert(sizeof(mystruct)) < 64, 
+       "mystruct does not fit in a cache line");
+   will fail at compile time if not satisfied
+
+
+
