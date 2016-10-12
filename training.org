@@ -257,15 +257,22 @@
     the compiler will add padding for the struct to 
     weight 8 bytes instead of 6 bytes
 
-** move semantics
-*** std::move
-    transfers the ownership of an object and return an rvalue ref
-    using it in the same scope after a move is undefined behavior
+*** move semantics
+**** std::move
+     transfers the ownership of an object and return an rvalue ref
+     using it in the same scope after a move is undefined behavior
+     (http://stackoverflow.com/questions/20850196/what-lasts-after-using-stdmove-c11)
+
+**** rvalue / rvalue reference
+     one can overload a function taking a reference, with a function taking
+     an rvalue reference instead, to prevent copying objects, for instance
+     vector::push_back is overloaded in such a manner to prevent copies when
+     object are passed by rvalue ref
 
 *** emplace_back function
     constructs an object in place in a container
     v.emplace_back(a, b, c); // calls the constructor of the object with arg
-       a b and c to build the object in place in the vector
+        a b and c to build the object in place in the vector
 
 
 
