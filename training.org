@@ -212,8 +212,60 @@
 
 
 *** shared_ptr
+    like unique_ptr but allow shared ownership
+    works with a reference count :
+      - each time a copy of the pointer is made, a count is incremented
+      - at each deletion of a copy, the pointer is decremented
+      - when the counter reaches 0, the underlying object is deleted
+    
+    the reference count manipulation should be in atomic operations    
 
+    use std::make_shared to create one
+    std::shared_ptr<Obj> p 
+                  = std::make_shared<Obj>();
 
+**** enable_shared_from_this
+    to increase the ref count from within the object class definition, 
+    use the inheritance on std::enable_shared_from_this<object>
+
+        class object : std::enable_shared_from_this<object>
+
+    then, inside the class definition : replace 'this' with
+        shared_from_this()
+
+*** weak_ptr
+    fix circular references, don't keep the object alive
+    allow for doing stuff is the object is still there, 
+    and doing other stuff if the object no long exists
+    
+    // p is a pointer
+    std::weak_ptr<int> wp = p;
+    if(auto locked = wp.lock()) {
+      // code if wp is still alive
+    }else{
+      // code if wp points to nothing
+    }
+
+*** allocators
+    can be given for debugging or perf purpose
+    
+*** alignment
+    keyword align:
+    align(8) struct x { char c; int i; bool b; }
+    char -> 1 byte(or 8 bits), int -> 4 bytes, bool -> 1 byte
+
+    the compiler will add padding for the struct to 
+    weight 8 bytes instead of 6 bytes
+
+** move semantics
+*** std::move
+    transfers the ownership of an object and return an rvalue ref
+    using it in the same scope after a move is undefined behavior
+
+*** emplace_back function
+    constructs an object in place in a container
+    v.emplace_back(a, b, c); // calls the constructor of the object with arg
+       a b and c to build the object in place in the vector
 
 
 
