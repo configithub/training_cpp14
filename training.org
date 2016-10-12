@@ -51,6 +51,8 @@
 *** godbolt : gives the assembly version of some code
     gcc.godbolt.org
 
+    (or gcc -S)
+
 *** constructor can call another constructor
     myclass(int i, std::string s);
     myclass(int i) : myclass{2, std::string("truc")} {}
@@ -324,6 +326,74 @@
    std::chrono::system_clock() // precision : roughly one sec
    std::chrono::steady_clock() // monotonic, no guarantee on precision
    no gregorian calendar, so boost datetime is still useful
+
+** multithreading
+
+    advantage over posix stuff : it works on many platforms
+*** std::thread
+**** standalone function
+    if we have a function like this :
+    void compute() { ... }
+    std::thread t{&compute};
+    t.join();  // to wait for compute to finish
+
+**** object method
+    for an object method (compute is a method of object now)
+
+    object obj;
+    std::thread t{[&obj](void) { obj.compute(); } }; // as a lambda 
+    or
+    std::thread t{std::bind(&object::compute, obj)}; // as a binding
+
+    thread is copyable but not movable
+
+**** sleep within the thread
+     std::this_thread::sleep_for(2s);
+
+*** std::mutex
+    std::mutex mtx;
+    to grab the lock :
+    std::unique_lock<std::mutex> lockobj(mtx); 
+    // mtx is unlocked at destruction of lockobj
+
+    other flavors of mutex
+    std::recursive_mutex 
+    ...
+
+*** condition_variable
+    std::condition_variable
+    avoid spinning while we wait for a thread to do some stuff
+    usage is like the posix version
+
+*** async
+    launches a thread for a function or lambda execution
+
+**** future
+     std::future<type>
+     keeps the result of an async call, use it in the scope
+     the process will wait for the result to use it
+     std::future<int> f = std::async(compute); // async launches a thread
+     ... do other stuff
+     f.wait();
+     f.get(); // now stores the result
+
+**** promise
+     std::promise<type>
+     decouple result sending from thread termination
+
+     more precise mecanism to fill the value of a future during a thread
+     execution, without having to wait for the whole thread to terminate
+
+     it's a way to pass some results from a thread to the caller before
+     waiting for the thread's termination 
+
+*** atomic
+     variable can be manipulated in a thread safe manner without locks
+     std::atomic<type> var; // does not compile if the type is not integral 
+     var.is_lock_free(); // depends on the platform and the type given
+     if it is true, then the operation on the type are atomic
+     var.compare_exchange_strong(); // atomic compare
+
 
 
 
