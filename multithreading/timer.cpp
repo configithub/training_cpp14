@@ -6,7 +6,7 @@
 class timer {
 public:
 
-  timer() : _running{false} {}
+  timer() : _running{false}, _counter(0) {}
 
   void run() {
     _running = true;
@@ -16,7 +16,8 @@ public:
   void process() noexcept {
     while(_running) {
       std::this_thread::sleep_for(std::chrono::seconds(1));
-      std::cout << "ping" << std::endl;
+      std::cout << "ping " << _counter << std::endl;
+      ++_counter;
       // std::cout << "is_lock_free " << _running.is_lock_free() << std::endl;
     }
   }
@@ -25,10 +26,11 @@ public:
   //void join() { _t.join(); }
 
   void stop() { _running = false; _t.join(); }
+
   // same thing but we avoid double stops in case of multiple callers
   void stop_safe() {  
     bool v = true;
-    if(_running.compare_exchange_strong(v, false)) {  // atomic compare
+    if(_running.compare_exchange_strong(v, false)) {  // atomic compare and set
       _t.join(); 
     } 
   }
@@ -36,6 +38,8 @@ public:
 private:
   std::thread _t;
   std::atomic<bool> _running; // no need for the volatile keyword with atomics
+  // we put _running as atomic because 2 threads can write this variable
+  int _counter;
 };
 
 
